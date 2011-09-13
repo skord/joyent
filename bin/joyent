@@ -1,3 +1,53 @@
 #! /usr/bin/env ruby
 
-puts "Joyent API"
+require 'rubygems'
+require 'thor'
+require 'yaml'
+require File.join(File.dirname(__FILE__), '../lib/joyent')
+require 'highline/import'
+
+class JoyentCLI < Thor
+  private
+
+  def get_connection
+    get_config unless load_config
+
+    Joyent::Connection.new(@username, @password)
+  end
+
+  def load_config
+    config_file = File.join(ENV['HOME'], ".joyentcli")
+    if File.exists?(config_file)
+      config = YAML.load(File.open(config_file, 'r').read)
+      @username = config["username"]
+      @password = config["password"]
+      return true
+    else
+      return false
+    end
+  end
+
+  def get_config
+    @username = ask("Username (login): ")
+    @password = ask("Password: "){|q| q.echo = false}
+
+    config_file = File.join(ENV['HOME'], ".joyentcli")
+    config = {"username" => @username, "password" => @password}
+    File.open(config_file, 'w+') {|f|
+      f.puts config.to_yaml
+    }
+  end
+
+  public
+
+  desc "list_datacenters", "list all of the available datacenters"
+  def list_datacenters
+    conn = get_connection
+    conn.datacenters.list.each do |dc|
+      puts "#{dc.name}: #{dc.url}"
+    end
+  end
+
+end
+
+JoyentCLI.start
