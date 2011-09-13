@@ -4,6 +4,8 @@ require 'net/https'
 require 'json'
 
 require 'lib/joyent/connection'
+require 'lib/joyent/datacenters'
+require 'lib/joyent/datacenter'
 require 'lib/joyent/datasets'
 require 'lib/joyent/dataset'
 require 'lib/joyent/packages'

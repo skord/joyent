@@ -37,6 +37,10 @@ module Joyent
       end
     end
 
+    def datacenters
+      @datacenters ||= Joyent::Datacenters.new(self)
+    end
+
     def datasets
       @datasets ||= Joyent::Datasets.new(self)
     end

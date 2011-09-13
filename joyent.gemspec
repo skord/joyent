@@ -30,6 +30,8 @@ Gem::Specification.new do |s|
     "joyent.gemspec",
     "lib/joyent.rb",
     "lib/joyent/connection.rb",
+    "lib/joyent/datacenter.rb",
+    "lib/joyent/datacenters.rb",
     "lib/joyent/dataset.rb",
     "lib/joyent/datasets.rb",
     "lib/joyent/machine.rb",
