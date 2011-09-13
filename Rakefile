@@ -15,13 +15,19 @@ require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "joyent"
-  gem.homepage = "http://github.com/commonthread/joyent"
+  gem.homepage = "http://github.com/mongohq/joyent"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{Ruby interface to the joyent cloud API}
+  gem.description = %Q{Ruby interface to the joyent cloud API}
   gem.email = "ben.wyrosdick@gmail.com"
   gem.authors = ["Ben Wyrosdick"]
+  # files defined in Gemfile
+  gem.files.include Dir.glob('lib/**/*.rb')
   # dependencies defined in Gemfile
+  gem.add_dependency 'thor'
+  gem.add_dependency 'json'
+  # executables defined in Gemfile
+  gem.executables = ['joyent']
 end
 Jeweler::RubygemsDotOrgTasks.new
 
