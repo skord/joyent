@@ -20,14 +20,25 @@ module Joyent
       when :get
         request = Net::HTTP::Get.new("/#{@username}#{url}", self.headers)
       when :post
-        request = Net::HTTP::Post.new("/#{@username}#{url}", data, self.headers)
+        request = Net::HTTP::Post.new("/#{@username}#{url}", self.headers)
+        request.set_form_data(data)
       else
         raise "HTTP method #{http_method} not supported"
       end
 
       request.basic_auth(@username, @password)
+
       response = @http_connection.request(request)
-      JSON.parse(response.body)
+
+      if response.code =~ /^2/
+        JSON.parse(response.body)
+      else
+        raise "#{response.code}: #{response.message} - #{response.body}"
+      end
+    end
+
+    def datasets
+      @datasets ||= Joyent::Datasets.new(self)
     end
 
     def packages
