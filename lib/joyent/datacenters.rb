@@ -9,9 +9,7 @@ module Joyent
     end
 
     def get(name)
-      datacenter_attributes = @connection.execute(:get, "/datacenters/#{name}")
-      #Joyent::Datacenter.new(datacenter_attributes)
-      datacenter_attributes
+      Joyent::Datacenter.new(name, @connection.execute(:get, "/datacenters")[name])
     end
   end
 end
