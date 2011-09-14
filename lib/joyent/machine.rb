@@ -22,6 +22,18 @@ module Joyent
       @connection.execute(:post, "/machines/#{self.id}", {"action" => "stop"})
     end
 
+    def start
+      @connection.execute(:post, "/machines/#{self.id}", {"action" => "start"})
+    end
+
+    def reboot
+      @connection.execute(:post, "/machines/#{self.id}", {"action" => "reboot"})
+    end
+
+    def resize(package)
+      @connection.execute(:post, "/machines/#{self.id}", {"action" => "resize", "package" => package})
+    end
+
     def delete
       @connection.execute(:delete, "/machines/#{self.id}")
     end

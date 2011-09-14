@@ -102,6 +102,30 @@ class JoyentCLI < Thor
     puts "#{m.name} [#{m.id}] STOPPED"
   end
 
+  desc "start_machine ID", "starts the machine with the given ID"
+  def start_machine(id)
+    conn = get_connection
+    m = conn.machines.get(id)
+    m.start
+    puts "#{m.name} [#{m.id}] STARTED"
+  end
+
+  desc "reboot_machine ID", "reboots the machine with the given ID"
+  def reboot_machine(id)
+    conn = get_connection
+    m = conn.machines.get(id)
+    m.reboot
+    puts "#{m.name} [#{m.id}] REBOOTED"
+  end
+
+  desc "resize_machine ID PACKAGE", "stops the machine with the given ID to the specified PACKAGE"
+  def resize_machine(id, package)
+    conn = get_connection
+    m = conn.machines.get(id)
+    m.resize(package)
+    puts "#{m.name} [#{m.id}] RESIZED to #{package}"
+  end
+
   desc "delete_machine ID", "deletes the machine with the given ID"
   def delete_machine(id)
     conn = get_connection
