@@ -40,6 +40,9 @@ class JoyentCLI < Thor
 
   public
 
+  # 
+  # Datacenters
+  #
   desc "list_datacenters", "list all of the available datacenters"
   def list_datacenters
     conn = get_connection
@@ -48,6 +51,64 @@ class JoyentCLI < Thor
     end
   end
 
+  # 
+  # Datasets
+  #
+  desc "list_datasets", "list all of the datasets available"
+  def list_datasets
+    conn = get_connection
+    conn.datasets.list.each do |d|
+      puts "#{d.name}: #{d.os} (#{d.urn})"
+    end
+  end
+
+  # 
+  # Packages
+  #
+  desc "list_packages", "list all of the packages available"
+  def list_packages
+    conn = get_connection
+    conn.packages.list.each do |p|
+      puts "#{p.name}: RAM-#{p.memory} HD-#{p.disk}"
+    end
+  end
+
+  # 
+  # Machines
+  #
+  desc "list_machines", "list all of the machines on the account"
+  def list_machines
+    conn = get_connection
+    conn.machines.list.each do |m|
+      puts "#{m.name} [#{m.id}]: #{m.dataset} (#{m.state})"
+    end
+  end
+
+  desc "create_machine", "create a new joyent machine"
+  method_option :name, :type => :string, :aliases => "-n"
+  method_option :package, :type => :string, :aliases => "-p"
+  method_option :dataset, :type => :string, :aliases => "-d"
+  def create_machine
+    conn = get_connection
+    m = conn.machines.create(options)
+    puts "#{m.name}: #{m.dataset} (#{m.state})"
+  end
+
+  desc "stop_machine ID", "stops the machine with the given ID"
+  def stop_machine(id)
+    conn = get_connection
+    m = conn.machines.get(id)
+    m.stop
+    puts "#{m.name} [#{m.id}] STOPPED"
+  end
+
+  desc "delete_machine ID", "deletes the machine with the given ID"
+  def delete_machine(id)
+    conn = get_connection
+    m = conn.machines.get(id)
+    m.delete
+    puts "#{m.name} [#{m.id}] DELETED"
+  end
 end
 
 JoyentCLI.start

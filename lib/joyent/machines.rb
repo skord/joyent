@@ -9,11 +9,11 @@ module Joyent
     end
 
     def get(id)
-      Joyent::Machine.new(@connection.execute(:get, "/machines/#{id}"))
+      Joyent::Machine.new(@connection, @connection.execute(:get, "/machines/#{id}"))
     end
 
     def create(attributes = {})
-      Joyent::Machine.new(self, @connection.execute(:post, "/machines", attributes))
+      Joyent::Machine.new(@connection, @connection.execute(:post, "/machines", attributes))
     end
   end
 end

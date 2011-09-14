@@ -17,5 +17,13 @@ module Joyent
       @created = attributes["created"]
       @updated = attributes["updated"]
     end
+
+    def stop
+      @connection.execute(:post, "/machines/#{self.id}", {"action" => "stop"})
+    end
+
+    def delete
+      @connection.execute(:delete, "/machines/#{self.id}")
+    end
   end
 end

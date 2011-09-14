@@ -22,6 +22,8 @@ module Joyent
       when :post
         request = Net::HTTP::Post.new("/#{@username}#{url}", self.headers)
         request.set_form_data(data)
+      when :delete
+        request = Net::HTTP::Delete.new("/#{@username}#{url}", self.headers)
       else
         raise "HTTP method #{http_method} not supported"
       end
@@ -31,7 +33,11 @@ module Joyent
       response = @http_connection.request(request)
 
       if response.code =~ /^2/
-        JSON.parse(response.body)
+        if response.body.nil? or response.body.empty?
+          nil
+        else
+          JSON.parse(response.body)
+        end
       else
         raise "#{response.code}: #{response.message} - #{response.body}"
       end
