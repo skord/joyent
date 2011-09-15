@@ -24,6 +24,7 @@ Jeweler::Tasks.new do |gem|
   # files defined in Gemfile
   gem.files.include Dir.glob('lib/**/*.rb')
   # dependencies defined in Gemfile
+  gem.add_dependency 'highline'
   gem.add_dependency 'thor'
   gem.add_dependency 'json'
   # executables defined in Gemfile
