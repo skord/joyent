@@ -3,8 +3,8 @@
 require 'rubygems'
 require 'thor'
 require 'yaml'
-require File.join(File.dirname(__FILE__), '../lib/joyent')
 require 'highline/import'
+require File.join(File.dirname(__FILE__), '../lib/joyent')
 
 class JoyentCLI < Thor
   private
@@ -28,8 +28,8 @@ class JoyentCLI < Thor
   end
 
   def get_config
-    @username = ask("Username (login): ")
-    @password = ask("Password: "){|q| q.echo = false}
+    @username = ask("Username (login): "){|q| q.echo = true}
+    @password = ask("Password: "){|q| q.echo = '*'}
 
     config_file = File.join(ENV['HOME'], ".joyentcli")
     config = {"username" => @username, "password" => @password}
