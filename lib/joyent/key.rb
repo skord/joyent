@@ -8,5 +8,9 @@ module Joyent
       @name = attributes["name"]
       @key = attributes["key"]
     end
+
+    def delete
+      @connection.execute(:delete, "/keys/#{name}")
+    end
   end
 end

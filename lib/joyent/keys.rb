@@ -11,5 +11,9 @@ module Joyent
     def get(name)
       Joyent::Key.new(@connection, @connection.execute(:get, "/keys/#{name}"))
     end
+
+    def create(name, key)
+      Joyent::Key.new(@connection, @connection.execute(:post, "/keys", {:name => name, :key => key}))
+    end
   end
 end

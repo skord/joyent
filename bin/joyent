@@ -38,6 +38,14 @@ class JoyentCLI < Thor
     }
   end
 
+  def get_rsa_key(key)
+    if key =~ /^ssh-rsa\s/
+      key
+    else
+      File.open(key, 'r').read
+    end
+  end
+
   public
 
   # 
@@ -47,8 +55,33 @@ class JoyentCLI < Thor
   def list_keys
     conn = get_connection
     conn.keys.list.each do |dc|
-      puts dc.inspect
+      puts dc.name
     end
+  end
+
+  desc "get_key NAME", "get the text of the specified key"
+  def get_key(name)
+    conn = get_connection
+    key = conn.keys.get(name)
+    puts key.key
+  end
+
+  desc "create_key", "create a new public key with NAME and KEY"
+  method_option :name, :type => :string, :aliases => "-n", :required => true
+  method_option :key, :type => :string, :aliases => "-k", :required => true
+  def create_key
+    conn = get_connection
+    key = conn.keys.create(options["name"], get_rsa_key(options["key"]))
+    puts key.name
+    puts key.key
+  end
+
+  desc "delete_key NAME", "get the text of the specified key"
+  def delete_key(name)
+    conn = get_connection
+    key = conn.keys.get(name)
+    key.delete
+    puts "DELETED: #{key.name}"
   end
 
   # 
