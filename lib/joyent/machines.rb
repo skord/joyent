@@ -5,7 +5,7 @@ module Joyent
     end
 
     def list
-      @connection.execute(:get, "/machines").map{|attributes| Joyent::Machine.new(self, attributes)}
+      @connection.execute(:get, "/machines").map{|attributes| Joyent::Machine.new(@connection, attributes)}
     end
 
     def get(id)

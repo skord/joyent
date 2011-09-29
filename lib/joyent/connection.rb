@@ -43,6 +43,10 @@ module Joyent
       end
     end
 
+    def keys
+      @keys ||= Joyent::Keys.new(self)
+    end
+
     def datacenters
       @datacenters ||= Joyent::Datacenters.new(self)
     end

@@ -41,6 +41,17 @@ class JoyentCLI < Thor
   public
 
   # 
+  # Keys
+  #
+  desc "list_keys", "list all of the available keys"
+  def list_keys
+    conn = get_connection
+    conn.keys.list.each do |dc|
+      puts dc.inspect
+    end
+  end
+
+  # 
   # Datacenters
   #
   desc "list_datacenters", "list all of the available datacenters"
