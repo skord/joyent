@@ -1,7 +1,7 @@
 module Joyent
   class Connection
-    def initialize(username, password)
-      @http_connection = Net::HTTP.new(Joyent::API_ENDPOINT, 443)
+    def initialize(username, password, datacenter = Datacenters.default)
+      @http_connection = Net::HTTP.new(datacenter, 443)
       @http_connection.use_ssl = true
       @http_connection.verify_mode = OpenSSL::SSL::VERIFY_NONE
 

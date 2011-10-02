@@ -4,6 +4,10 @@ module Joyent
       @connection = connection
     end
 
+    def self.default
+      Joyent::API_ENDPOINT
+    end
+
     def list
       @connection.execute(:get, "/datacenters").map{|name, url| Joyent::Datacenter.new(name, url)}
     end
